@@ -12,5 +12,5 @@
   ],
   "module": "befunge_interpreter.js",
   "types": "befunge_interpreter.d.ts",
-  "sideEffects": "false"
+  "sideEffects": false
 }
