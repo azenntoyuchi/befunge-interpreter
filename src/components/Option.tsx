@@ -10,13 +10,19 @@ import {
   ListItemText
 } from '@material-ui/core';
 
+const StyledListItem = styled(ListItem)`
+  width: fit-content;
+  margin: 0 auto;
+  background-color: red !important;
+`;
+
 const Option: React.FC<{}> = () => {
   const [use, setUse] = React.useState(false);
   const toggle = () => setUse(!use);
 
   return (
       <List>
-        <ListItem>
+        <StyledListItem>
           <ListItemIcon
             onClick={toggle}
           >
@@ -28,9 +34,10 @@ const Option: React.FC<{}> = () => {
           <ListItemText
             primary='Enable step-run mode'
           />
-        </ListItem>
+        </StyledListItem>
       </List>
   );
 }
 
 export default Option;
+
