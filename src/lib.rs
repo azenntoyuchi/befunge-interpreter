@@ -1,16 +1,16 @@
 use wasm_bindgen::prelude::*;
 mod console;
 mod exec;
-
+mod visualization;
 
 #[wasm_bindgen(start)]
 pub fn run() {
-  console::log("Hello, wasm!");
+  console::log("test: loaded wasm");
 }
 
 #[wasm_bindgen]
-pub fn read(input: &str){
-  let code = input.split('\n').collect::<Vec<&str>>();
+pub fn read(input: &str, pre_code: &str){
+  let code = pre_code.split('\n').collect::<Vec<&str>>();
 
   if code.len() > 128 {
     console::log("too long");
@@ -24,18 +24,31 @@ pub fn read(input: &str){
     }
   }
 
-  let mut frame: Vec<Vec<char>>  = vec![vec![' '; 128];128];
+  let mut frame: Vec<Vec<char>> = vec![vec![' '; 128]; 128];
   for i in 0..code.len() {
     let mut chs = code[i].chars();
-    for j in 0..code[i].len(){
+    for j in 0..code[i].chars().count(){
       frame[i][j] = chs.next().unwrap();
     }
   }
 
-  console::log("\n---");
-  console::log(&format!("input -> {}", input));
-  //console::log(&format!("input -> {:?}", frame));
-  let result = exec::run(frame);
-  console::log(&format!("stack -> {:?}", result));
+  console::log("");
+
+  console::log("code:");
+  console::log(&format!("  {}", pre_code));
+
+  if input.chars().count() > 0 {
+    console::log("input:");
+    console::log(&format!("  {}", input));
+  }
+
+  console::log("");
+
+  // execute
+  let stack = exec::run(frame, input);
+
+  console::log("");
+  console::log("stack:");
+  console::log(&format!("{:?}", stack));
 }
 
